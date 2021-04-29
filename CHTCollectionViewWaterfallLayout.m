@@ -12,8 +12,6 @@ NSString *const CHTCollectionElementKindSectionHeader = @"CHTCollectionElementKi
 NSString *const CHTCollectionElementKindSectionFooter = @"CHTCollectionElementKindSectionFooter";
 
 @interface CHTCollectionViewWaterfallLayout ()
-/// The delegate will point to collection view's delegate automatically.
-@property (nonatomic, weak) id <CHTCollectionViewDelegateWaterfallLayout> delegate;
 /// Array to store height for each column
 @property (nonatomic, strong) NSMutableArray *columnHeights;
 /// Array of arrays. Each array stores item attributes for each section
@@ -172,7 +170,10 @@ static CGFloat CHTFloorCGFloat(CGFloat value) {
 }
 
 - (id <CHTCollectionViewDelegateWaterfallLayout> )delegate {
-  return (id <CHTCollectionViewDelegateWaterfallLayout> )self.collectionView.delegate;
+    if (!_delegate) {
+        _delegate = (id <CHTCollectionViewDelegateWaterfallLayout> )self.collectionView.delegate;
+    }
+    return _delegate;
 }
 
 #pragma mark - Init
